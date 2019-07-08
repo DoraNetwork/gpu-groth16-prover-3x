@@ -20,6 +20,7 @@
 
 using namespace libff;
 using namespace libsnark;
+static bool param_l = false;
 
 const multi_exp_method method = multi_exp_method_BDLO12;
 // const multi_exp_method method = multi_exp_method_bos_coster;
@@ -255,6 +256,9 @@ void output_g1_multiples(int C, const std::vector<G1<ppT>> &vec, FILE *output) {
     //  2^(C-1) P0, ..., 2^(C-1) Pn]
     std::vector<G1<ppT>> multiples;
     size_t len = vec.size();
+    if (param_l) {
+        len = len >> 1;
+    }
     multiples.resize(len * ((1U << C) - 1));
     std::copy(vec.begin(), vec.end(), multiples.begin());
 
@@ -331,6 +335,7 @@ void run_preprocess(const char *params_path, const char *output_path)
     printf("Processing B2...\n");
     output_g2_multiples<ppT>(C, params.B2, output);
     printf("Processing L...\n");
+    param_l = true;
     output_g1_multiples<ppT>(C, params.L, output);
 //    printf("Processing H...\n");
 //    output_g1_multiples<ppT>(C, params.H, output);

@@ -196,9 +196,7 @@ public:
     for (size_t i = 0; i <= m; ++i) {
       B2->emplace_back(read_g2<mnt4753_pp>(params));
     }
-    size_t half = (m - 1) >> 1;
     for (size_t i = 0; i < m - 1; ++i) {
-      //if (i < half) continue;
       L->emplace_back(read_g1<mnt4753_pp>(params));
     }
     for (size_t i = 0; i < d; ++i) {
@@ -358,6 +356,17 @@ mnt4753_libsnark::multiexp_G1(mnt4753_libsnark::vector_Fr *scalar_start,
       multiexp<libff::G1<mnt4753_pp>, Fr<mnt4753_pp>>(
           scalar_start->data->begin() + scalar_start->offset,
           g_start->data->begin(), length)};
+}
+mnt4753_libsnark::G1 *
+mnt4753_libsnark::multiexp_G1(mnt4753_libsnark::vector_Fr *scalar_start,
+                              mnt4753_libsnark::vector_G1 *g_start,
+                              size_t g_offset,
+                              size_t length) {
+
+  return new mnt4753_libsnark::G1{
+      multiexp<libff::G1<mnt4753_pp>, Fr<mnt4753_pp>>(
+          scalar_start->data->begin() + scalar_start->offset,
+          g_start->data->begin() + g_offset, length)};
 }
 mnt4753_libsnark::G2 *
 mnt4753_libsnark::multiexp_G2(mnt4753_libsnark::vector_Fr *scalar_start,
@@ -703,6 +712,17 @@ mnt6753_libsnark::multiexp_G1(mnt6753_libsnark::vector_Fr *scalar_start,
       multiexp<libff::G1<mnt6753_pp>, Fr<mnt6753_pp>>(
           scalar_start->data->begin() + scalar_start->offset,
           g_start->data->begin(), length)};
+}
+mnt6753_libsnark::G1 *
+mnt6753_libsnark::multiexp_G1(mnt6753_libsnark::vector_Fr *scalar_start,
+                              mnt6753_libsnark::vector_G1 *g_start,
+                              size_t g_offset,
+                              size_t length) {
+
+  return new mnt6753_libsnark::G1{
+      multiexp<libff::G1<mnt6753_pp>, Fr<mnt6753_pp>>(
+          scalar_start->data->begin() + scalar_start->offset,
+          g_start->data->begin() + g_offset, length)};
 }
 mnt6753_libsnark::G2 *
 mnt6753_libsnark::multiexp_G2(mnt6753_libsnark::vector_Fr *scalar_start,

@@ -135,7 +135,8 @@ void run_prover(
     auto B2_mults = load_points_affine<ECpe>(((1U << C) - 1)*(m + 1), preprocessed_file);
     auto out_B2 = allocate_memory(space * ECpe::NELTS * ELT_BYTES);
 
-    size_t size_l = (m - 1);// >> 1;
+    size_t size_l = (m - 1) >> 1;
+    space = space >> 1;
     auto L_mults = load_points_affine<ECp>(((1U << C) - 1)*(size_l), preprocessed_file);
     auto out_L = allocate_memory(space * ECp::NELTS * ELT_BYTES);
 
@@ -180,10 +181,10 @@ void run_prover(
     G1 *evaluation_Ht = B::multiexp_G1(coefficients_for_H, H, d);
 
     G1 *evaluation_Lt_remain;
-    if (size_l != (m - 1)) {
+    if (size_l < (m - 1)) {
       evaluation_Lt_remain = B::multiexp_G1(
         B::input_w_offset(inputs, primary_input_size + 1 + size_l),
-        B::params_L(params),
+        B::params_L(params), size_l,
         m - 1 - size_l);
     }
 
@@ -200,10 +201,9 @@ void run_prover(
     G2 *evaluation_Bt2 = B::read_pt_ECpe(out_B2.get());
 
     cudaStreamSynchronize(sL);
-    G1 *evaluation_Lt_half = B::read_pt_ECp(out_L.get());
+    G1 *evaluation_Lt = B::read_pt_ECp(out_L.get());
 
-    auto evaluation_Lt = evaluation_Lt_half;
-    if (size_l != (m - 1)) {
+    if (size_l < (m - 1)) {
         evaluation_Lt = B::G1_add(evaluation_Lt, evaluation_Lt_remain);
     }
 
