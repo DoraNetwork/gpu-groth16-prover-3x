@@ -64,6 +64,7 @@ public:
   static groth16_input *read_input(FILE *inputs, size_t d, size_t m);
 
   static vector_Fr *input_w(groth16_input *input);
+  static vector_Fr *input_w_offset(groth16_input *input, size_t offset);
   static vector_Fr *input_ca(groth16_input *input);
   static vector_Fr *input_cb(groth16_input *input);
   static vector_Fr *input_cc(groth16_input *input);
@@ -151,6 +152,7 @@ public:
   static groth16_input *read_input(FILE *inputs, size_t d, size_t m);
 
   static vector_Fr *input_w(groth16_input *input);
+  static vector_Fr *input_w_offset(groth16_input *input, size_t offset);
   static vector_Fr *input_ca(groth16_input *input);
   static vector_Fr *input_cb(groth16_input *input);
   static vector_Fr *input_cc(groth16_input *input);

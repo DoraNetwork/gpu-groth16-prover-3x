@@ -196,7 +196,9 @@ public:
     for (size_t i = 0; i <= m; ++i) {
       B2->emplace_back(read_g2<mnt4753_pp>(params));
     }
+    size_t half = (m - 1) >> 1;
     for (size_t i = 0; i < m - 1; ++i) {
+      //if (i < half) continue;
       L->emplace_back(read_g1<mnt4753_pp>(params));
     }
     for (size_t i = 0; i < d; ++i) {
@@ -375,6 +377,11 @@ mnt4753_libsnark::read_input(FILE *inputs, size_t d, size_t m) {
 mnt4753_libsnark::vector_Fr *
 mnt4753_libsnark::input_w(mnt4753_libsnark::groth16_input *input) {
   return new mnt4753_libsnark::vector_Fr{.data = input->w, .offset = 0};
+}
+
+mnt4753_libsnark::vector_Fr *
+mnt4753_libsnark::input_w_offset(mnt4753_libsnark::groth16_input *input, size_t offset) {
+  return new mnt4753_libsnark::vector_Fr{.data = input->w, .offset = offset};
 }
 
 mnt4753_libsnark::vector_G1 *
@@ -715,6 +722,11 @@ mnt6753_libsnark::read_input(FILE *inputs, size_t d, size_t m) {
 mnt6753_libsnark::vector_Fr *
 mnt6753_libsnark::input_w(mnt6753_libsnark::groth16_input *input) {
   return new mnt6753_libsnark::vector_Fr{.data = input->w, .offset = 0};
+}
+
+mnt6753_libsnark::vector_Fr *
+mnt6753_libsnark::input_w_offset(mnt6753_libsnark::groth16_input *input, size_t offset) {
+  return new mnt6753_libsnark::vector_Fr{.data = input->w, .offset = offset};
 }
 
 mnt6753_libsnark::vector_G1 *
